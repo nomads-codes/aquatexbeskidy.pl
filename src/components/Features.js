@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { ReactComponent as ArrowRight } from '../assets/icons/arrow_right.svg';
+import { useOnScreen } from '~hooks';
 import { Link } from '~components';
 import { mq } from '~theme';
 
@@ -15,8 +16,10 @@ import { mq } from '~theme';
 // ─────────────────────────────────────────────────────────────────────────────
 
 const Features = ({ features, title }) => {
+  const [ref, isIntersecting] = useOnScreen({ threshold: 0.5 });
+
   return (
-    <Wrapper>
+    <Wrapper ref={ref} isIntersecting={isIntersecting}>
       {title && <Header>{title}</Header>}
       {features &&
         features.map(({ title, icon, link, desc }, index) => (
@@ -68,6 +71,11 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+
+  opacity: ${({ isIntersecting }) => (isIntersecting ? '1' : '0')};
+  transform: scale(${({ isIntersecting }) => (isIntersecting ? '1' : '0.9')});
+  transition: opacity 250ms, transform 250ms;
+
   ${mq.min.tablet_base} {
     flex-direction: row;
   }
