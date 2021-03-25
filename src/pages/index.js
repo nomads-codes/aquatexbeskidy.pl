@@ -5,7 +5,7 @@
 import { graphql } from 'gatsby';
 import React from 'react';
 
-import { Hero2, Hero, Features, Reviews, Toggler } from '~components';
+import { Hero2, Hero, FeaturesSection, Reviews, Toggler } from '~components';
 import { RootContainer } from '~containers';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -16,19 +16,22 @@ const HomePage = ({ data: { advantages, howWorks, features, reviews, hero, meta,
   return (
     <RootContainer meta={meta.frontmatter.meta}>
       <Hero hero={hero.frontmatter.hero} />
-      <Features features={features.frontmatter.features} />
+
+      {(({ heading, list } = features.frontmatter.features) => (
+        <FeaturesSection heading={heading} list={list} divider />
+      ))()}
+
       <Reviews reviews={reviews.frontmatter.reviews} />
-      <Features
-        features={advantages.frontmatter.advantages.advList}
-        title={advantages.frontmatter.advantages.title}
-      />
+
+      {(({ heading, list } = advantages.frontmatter.advantages) => (
+        <FeaturesSection heading={heading} list={list} divider />
+      ))()}
+
       <Hero2 hero2={howWorks.frontmatter.howWorks} />
       <Toggler faq={faq.frontmatter.faq} />
     </RootContainer>
   );
 };
-
-export default HomePage;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Extended Default Styles
@@ -100,11 +103,15 @@ export const query = graphql`
     ) {
       frontmatter {
         advantages {
-          title
-          advList {
+          heading {
+            title
+            align
+            tag
+          }
+          list {
             title
             icon
-            desc
+            description
           }
         }
       }
@@ -116,11 +123,18 @@ export const query = graphql`
     ) {
       frontmatter {
         features {
-          title
-          icon
-          link {
+          heading {
             title
-            url
+            align
+            tag
+          }
+          list {
+            title
+            icon
+            link {
+              title
+              url
+            }
           }
         }
       }
@@ -187,3 +201,5 @@ export const query = graphql`
 // ─────────────────────────────────────────────────────────────────────────────
 // Others
 // ─────────────────────────────────────────────────────────────────────────────
+
+export default HomePage;
