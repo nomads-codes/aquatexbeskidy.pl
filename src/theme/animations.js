@@ -18,3 +18,6 @@ export const animationKeyframes = ({ from = {}, to = {}, properties = '' } = {})
     ${setup} ${properties}
   `;
 };
+
+export const t = 150; // timing
+export const r = 1.2; // ratio
