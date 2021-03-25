@@ -1,0 +1,13 @@
+{
+  "presets": ["babel-preset-gatsby"],
+  "plugins": [
+    [
+      "styled-components",
+      {
+        "displayName": true,
+        "preprocess": false,
+        "ssr": true
+      }
+    ]
+  ]
+}
