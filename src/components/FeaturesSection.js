@@ -2,112 +2,94 @@
 // Import
 // ─────────────────────────────────────────────────────────────────────────────
 
-import styled, { css } from 'styled-components';
-import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import React from 'react';
 
+import { TYPE_FEATURES_LIST_SCHEMA, TYPE_FEATURES_LIST_DEFAULTS } from '~types';
 import { ReactComponent as ArrowRight } from '../assets/icons/arrow_right.svg';
+import { Section, Link, ImageAsset } from '~components';
 import { useOnScreen } from '~hooks';
-import { Link } from '~components';
-import { mq } from '~theme';
+import { mq, t, r } from '~theme';
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  Component
 // ─────────────────────────────────────────────────────────────────────────────
 
-const Features = ({ features, title }) => {
-  const [ref, isIntersecting] = useOnScreen({ threshold: 0.5 });
+const FeaturesList = ({ list }) =>
+  list.map(({ title, icon, link, description }, i) => {
+    const [ref, isIntersecting] = useOnScreen({ threshold: 0.5 });
+    const props = {
+      style: { transition: `opacity ${t * i * r}ms, transform ${t * i * r}ms` },
+      isIntersecting,
+      key: i,
+      ref,
+    };
 
-  return (
-    <Wrapper ref={ref} isIntersecting={isIntersecting}>
-      {title && <Header>{title}</Header>}
-      {features &&
-        features.map(({ title, icon, link, desc }, index) => (
-          <Inner key={index}>
-            {icon && icon.includes('/icons/') && <Image alt={title} src={require(`../${icon}`)} />}
-            <Title>{title}</Title>
-            {link && (
-              <Link to={link.url} look="primary">
-                <Text>{link.title}</Text>
-                <ArrowRight />
-              </Link>
-            )}
-            {desc && <Description>{desc}</Description>}
-          </Inner>
-        ))}
-    </Wrapper>
-  );
-};
+    return (
+      <FeaturesListWrapper {...props}>
+        {icon && <ImageAsset source={icon} alt={title} />}
+        {title && <Title>{title}</Title>}
+
+        {link && (
+          <Link to={link.url} look="primary">
+            <Text>{link.title}</Text>
+            <ArrowRight />
+          </Link>
+        )}
+
+        {description && <Description>{description}</Description>}
+      </FeaturesListWrapper>
+    );
+  });
+
+const Features = ({ list, ...rest }) => (
+  <Section {...rest}>
+    <FeaturesWrapper>
+      <FeaturesList list={list} />
+    </FeaturesWrapper>
+  </Section>
+);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Extended Default Styles
 // ─────────────────────────────────────────────────────────────────────────────
 
-const BorderLineStyles = css`
-  content: '';
-  display: block;
-  position: absolute;
-  width: 70%;
-  height: 1px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.05);
-`;
-
-const Header = styled.h2`
-  flex-basis: 100%;
-  text-align: center;
-  margin-bottom: 80px;
-`;
-
-const Wrapper = styled.div`
-  width: 100%;
-  max-width: 1200px;
-  margin: 80px auto;
-  padding: 50px 0;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
+const FeaturesWrapper = styled.div`
   justify-content: center;
+  flex-direction: column;
   align-items: center;
-  position: relative;
+  flex-wrap: wrap;
+  display: flex;
 
-  opacity: ${({ isIntersecting }) => (isIntersecting ? '1' : '0')};
-  transform: scale(${({ isIntersecting }) => (isIntersecting ? '1' : '0.9')});
-  transition: opacity 250ms, transform 250ms;
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
 
   ${mq.min.tablet_base} {
     flex-direction: row;
   }
-  &::before {
-    ${BorderLineStyles};
-    top: 0;
-  }
-  &::after {
-    ${BorderLineStyles};
-    bottom: 0;
-  }
 `;
 
-const Inner = styled.div`
-  display: flex;
-  flex-direction: column;
+const FeaturesListWrapper = styled.div`
+  transform: scale(${({ isIntersecting }) => (isIntersecting ? '1' : '0.9')});
+  opacity: ${({ isIntersecting }) => (isIntersecting ? '1' : '0')};
   justify-content: center;
+  flex-direction: column;
   align-items: center;
+  display: flex;
+
   &:not(:last-child) {
-    margin-bottom: 50px;
+    ${mq.max.tablet_base} {
+      margin-bottom: 50px;
+    }
+
     ${mq.min.tablet_base} {
       margin-right: 60px;
-      margin-bottom: 0;
     }
+
     ${mq.min.desktop_small} {
       margin-right: 110px;
     }
-  }
-  a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 `;
 
@@ -115,11 +97,12 @@ const Title = styled.div`
   font-weight: ${({ theme }) => theme.font.weight.semibold};
   font-size: ${({ theme }) => theme.font.size.base};
   color: ${({ theme }) => theme.color.black};
-  width: 100%;
-  max-width: 160px;
   text-align: center;
-  margin: 20px 0;
   line-height: 20px;
+  max-width: 160px;
+  margin: 20px 0;
+  width: 100%;
+
   ${mq.min.tablet_base} {
     max-width: 120px;
     height: 40px;
@@ -129,11 +112,6 @@ const Title = styled.div`
 const Text = styled.span`
   color: ${({ theme }) => theme.color.primary};
   margin-right: 5px;
-`;
-
-const Image = styled.img`
-  height: 40px;
-  width: 40px;
 `;
 
 const Description = styled.p`
@@ -146,23 +124,16 @@ const Description = styled.p`
 `;
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Others
+// PropTypes
 // ─────────────────────────────────────────────────────────────────────────────
 
+FeaturesList.defaultProps = TYPE_FEATURES_LIST_DEFAULTS;
+FeaturesList.propTypes = TYPE_FEATURES_LIST_SCHEMA;
+FeaturesList.displayName = 'FeaturesList';
 Features.displayName = 'Features';
 
-Features.propTypes = {
-  title: PropTypes.string,
-  iconName: PropTypes.string,
-  link: PropTypes.string,
-  desc: PropTypes.string,
-};
-
-Features.defaultProps = {
-  title: '',
-  iconName: '',
-  link: '',
-  desc: '',
-};
+// ─────────────────────────────────────────────────────────────────────────────
+// Others
+// ─────────────────────────────────────────────────────────────────────────────
 
 export default Features;
