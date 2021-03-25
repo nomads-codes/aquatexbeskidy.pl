@@ -3,10 +3,10 @@ import { normalize } from 'styled-normalize';
 import { mq } from '~theme';
 
 export { LightTheme, DarkTheme, THEME_LABEL_LIGHT, THEME_LABEL_DARK } from './create';
-export { animationKeyframes } from './animations';
 export { default as mq } from './_breakpoints';
 export { ThemeProvider } from './provider';
 export { ThemeContext } from './context';
+export * from './animations';
 
 export const GlobalStyle = createGlobalStyle`
   ${normalize}
@@ -62,6 +62,31 @@ export const GlobalStyle = createGlobalStyle`
 
   [data-scroll-lock="true"] {
     overflow: hidden;
+  }
+
+  [data-divider-line="true"] {
+    margin: 80px auto;
+    padding: 50px 0px;
+
+    &::before,
+    &::after {
+      background: rgba(0, 0, 0, 0.05);
+      transform: translateX(-50%);
+      position: absolute;
+      display: block;
+      content: '';
+      height: 1px;
+      width: 70%;
+      left: 50%;
+    }
+
+    &::before {
+      top: 0;
+    }
+
+    &::after {
+      bottom: 0;
+    }
   }
 
   .gatsby-image-wrapper {
