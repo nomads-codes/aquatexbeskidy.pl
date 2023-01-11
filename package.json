@@ -39,7 +39,7 @@
     "gatsby-remark-normalize-paths": "^1.1.0",
     "gatsby-remark-relative-images": "^2.0.2",
     "gatsby-source-filesystem": "^3.0.0",
-    "gatsby-transformer-remark": "^3.0.0",
+    "gatsby-transformer-remark": "^5.25.1",
     "gatsby-transformer-sharp": "^3.0.0",
     "leaflet": "^1.7.1",
     "prop-types": "^15.7.2",
