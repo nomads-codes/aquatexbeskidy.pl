@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkaquatexbeskidy=self.webpackChunkaquatexbeskidy||[]).push([[125],{7412:function(e,t,n){n.r(t);var l=n(1015),a=n(6540);t.default=()=>a.createElement(a.Fragment,null,a.createElement("h1",null,"Page not found"),a.createElement("p",null,"Sorry we couldn’t find what you were looking for.",a.createElement("br",null),a.createElement(l.Link,{to:"/"},"Go to home page"),"."))}}]);
+//# sourceMappingURL=component---src-pages-404-js-a762f74927aa6fc04d15.js.map

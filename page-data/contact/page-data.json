@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-pages-contact-js",
+    "path": "/contact/",
+    "result": {"data":{"page":{"frontmatter":{"meta":{"description":"Kontakt - AQUA-TEX Beskidy","permalink":"/contact/","title":"Kontakt"}}},"content":{"frontmatter":{"contact":{"title":"Skontaktuj się z nami","subTitle":"Zapraszamy do kontaktu - do każdego podchodzimy indywidualnie. Z klientami umawiamy się w dogodnym dla nich terminie.","pinTitle":"Adres:","pinDesc":"Plażowa 6, 34-350 Węgierska Górka","buttons":[{"text":"Węgierska Górka","icon":"assets/icons/pin.svg","url":"/","type":"buttonPrimary"},{"text":"601 282 929","icon":"assets/icons/phone.svg","url":"tel:+48601282929","type":"buttonTertiary"},{"text":"Napisz do nas","icon":"assets/icons/mail.svg","url":"mailto:biuro@aquatexbeskidy.pl","type":"buttonTertiary"}]}}}},"pageContext":{}},
+    "staticQueryHashes": ["1228287332","1467079140","2669614877","2805198782","3108773282","3871347729","777539397"]}
